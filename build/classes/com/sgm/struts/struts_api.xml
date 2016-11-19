@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
+    "http://struts.apache.org/dtds/struts-2.5.dtd">
+<struts>
+
+	<package name="api" namespace="/api" extends="base">
+		<global-results>
+			<result name="error" type="outJSON">
+				<param name="value">errMap</param>
+			</result>
+			<result name="input" type="outJSON">
+				<param name="value">errMap</param>
+			</result>
+		</global-results>
+
+		<action name="userListApi" class="com.sgm.action.LoginAction" method="userListApi">
+			<result name="success" type="outJSON">
+				<param name="value">result</param>
+			</result>
+		</action>
+	</package>
+
+</struts>

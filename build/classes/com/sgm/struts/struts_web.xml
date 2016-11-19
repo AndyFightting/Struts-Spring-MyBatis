@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
+    "http://struts.apache.org/dtds/struts-2.5.dtd">
+<struts>
+	<package name="web" namespace="/web" extends="base">
+	
+		<global-results>
+			<result name="index">/index.jsp</result>
+		</global-results>
+
+		<action name="addUser" class="com.sgm.action.LoginAction"
+			method="addUser">
+			<result name="success" type="redirectAction">list</result>
+			<result name="input">/index.jsp</result>
+		</action>
+
+		<action name="list" class="com.sgm.action.LoginAction"
+			method="list">
+			<result name="success">/WEB-INF/jsp/userList.jsp</result>
+		</action>
+	</package>
+</struts>

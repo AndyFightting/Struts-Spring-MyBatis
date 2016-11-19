@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
+    "http://struts.apache.org/dtds/struts-2.5.dtd">
+<struts>
+	<package name="base" extends="struts-default">
+		<result-types>
+			<result-type name="output" class="com.sgm.result.OutputResult">
+				<param name="encoding">UTF-8</param>
+				<param name="contentType">text/html</param>
+			</result-type>
+
+			<result-type name="outJSON" class="com.sgm.result.OutJSONResult">
+				<param name="encoding">UTF-8</param>
+				<param name="contentType">application/json</param>
+			</result-type>
+		</result-types>
+	</package>
+</struts>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+xmlns:aop="http://www.springframework.org/schema/aop"
+xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+           http://www.springframework.org/schema/aop 
+           http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+	<!--所有的Spring配置都放这个文件里配置，包括对象的注入，接口实现的注入，Dao的注入等。 -->
+
+	<!--读取外部的属性文件配置参数 -->
+	<context:property-placeholder location="classpath:com/sgm/spring/db.properties" />
+	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource"
+		destroy-method="close">
+		<property name="url" value="${url}" />
+		<property name="driverClassName" value="${driverClassName}" />
+		<property name="username" value="${username}" />
+		<property name="password" value="${password}" />
+		<property name="maxIdle" value="${maxIdle}" />
+		<property name="minIdle" value="${minIdle}" />
+	</bean>
+
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation" value="classpath:com/sgm/mybatis/mybatis.xml" />
+	</bean>
+
+	<!--给baseAction 注入 serviceProvider -->
+	<bean id="baseAction" class="com.sgm.action.BaseAction">
+		<property name="serviceProvider" ref="serviceProvider" />
+	</bean>
+
+	<!-- .........................上面的配置可以不用动了，在下面添加新的就可以了............................. -->
+
+	<!--各个dao 的绑定,用 mybatis-spring 的工厂配置 。dao 必须是一个接口 -->
+	<bean id="userDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="com.sgm.dao.UserDao" />
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+
+	<bean id="bookDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="com.sgm.dao.BookDao" />
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+
+	<!--各个service 绑定实现类,并注入Dao 对象 -->
+	<bean id="userService" class="com.sgm.implement.UserServiceImp">
+		<property name="userDao" ref="userDao" />
+	</bean>
+
+	<bean id="bookService" class="com.sgm.implement.BookServiceImp">
+		<property name="bookDao" ref="bookDao" />
+	</bean>
+
+	<!--给service provider 注入各个 service (添加不同的 property ) -->
+	<bean id="serviceProvider" class="com.sgm.service.ServiceProvider">
+		<property name="userService" ref="userService" />
+		<property name="bookService" ref="bookService" />
+	</bean>
+</beans>
