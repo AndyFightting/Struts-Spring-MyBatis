@@ -11,4 +11,6 @@ Action负责业务逻辑处理，Action调用Service接口，Service接口注入
 都是通过Spring配置文件实现的。
 ```
 
+![image](https://github.com/AndyFightting/Struts-Spring-MyBatis/blob/master/ssm.png)
+
 
